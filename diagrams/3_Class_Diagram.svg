@@ -1,0 +1,137 @@
+<svg width="1050" height="660" viewBox="0 0 1050 660" xmlns="http://www.w3.org/2000/svg" style="background:#ffffff; font-family:'Segoe UI', Arial, sans-serif;">
+  <defs>
+    <filter id="clsShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-opacity="0.07"/>
+    </filter>
+    <marker id="assocArrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <text x="525" y="24" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">UML Class Diagram - Akole Tourism System</text>
+
+  <!-- CONNECTORS & MULTIPLICITY -->
+  <!-- User (1) to Booking (*) -->
+  <line x1="280" y1="130" x2="430" y2="130" stroke="#475569" stroke-width="2" marker-end="url(#assocArrow)"/>
+  <text x="290" y="122" font-size="12" font-weight="bold" fill="#1e293b">1</text>
+  <text x="415" y="122" font-size="12" font-weight="bold" fill="#1e293b">*</text>
+
+  <!-- Booking (1) to Payment (1) -->
+  <line x1="670" y1="130" x2="800" y2="130" stroke="#475569" stroke-width="2" marker-end="url(#assocArrow)"/>
+  <text x="680" y="122" font-size="12" font-weight="bold" fill="#1e293b">1</text>
+  <text x="785" y="122" font-size="12" font-weight="bold" fill="#1e293b">1</text>
+
+  <!-- TouristPlace (1) to TourPackage (*) -->
+  <line x1="280" y1="470" x2="430" y2="470" stroke="#475569" stroke-width="2" marker-end="url(#assocArrow)"/>
+  <text x="290" y="462" font-size="12" font-weight="bold" fill="#1e293b">1</text>
+  <text x="415" y="462" font-size="12" font-weight="bold" fill="#1e293b">*</text>
+
+  <!-- TourPackage (1) to Booking (*) -->
+  <line x1="550" y1="370" x2="550" y2="250" stroke="#475569" stroke-width="2" marker-end="url(#assocArrow)"/>
+  <text x="558" y="355" font-size="12" font-weight="bold" fill="#1e293b">1</text>
+  <text x="558" y="265" font-size="12" font-weight="bold" fill="#1e293b">*</text>
+
+  <!-- TourPackage (1) to Review (*) -->
+  <line x1="670" y1="470" x2="800" y2="470" stroke="#475569" stroke-width="2" marker-end="url(#assocArrow)"/>
+  <text x="680" y="462" font-size="12" font-weight="bold" fill="#1e293b">1</text>
+  <text x="785" y="462" font-size="12" font-weight="bold" fill="#1e293b">*</text>
+
+  <!-- CLASS 1: USER -->
+  <g filter="url(#clsShadow)">
+    <rect x="50" y="40" width="230" height="210" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+    <rect x="50" y="40" width="230" height="34" rx="8" fill="#1e293b"/>
+    <rect x="50" y="64" width="230" height="10" fill="#1e293b"/>
+    <text x="165" y="62" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">User</text>
+    <text x="62" y="90" font-family="monospace" font-size="11" fill="#334155">- id: String</text>
+    <text x="62" y="108" font-family="monospace" font-size="11" fill="#334155">- name: String</text>
+    <text x="62" y="126" font-family="monospace" font-size="11" fill="#334155">- email: String</text>
+    <text x="62" y="144" font-family="monospace" font-size="11" fill="#334155">- role: UserRole</text>
+    <line x1="50" y1="154" x2="280" y2="154" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="62" y="174" font-family="monospace" font-size="11" fill="#2563eb">+ register(): User</text>
+    <text x="62" y="192" font-family="monospace" font-size="11" fill="#2563eb">+ login(pwd): JWT</text>
+    <text x="62" y="210" font-family="monospace" font-size="11" fill="#2563eb">+ updateProfile(): Bool</text>
+    <text x="62" y="228" font-family="monospace" font-size="11" fill="#2563eb">+ getBookings(): List</text>
+  </g>
+
+  <!-- CLASS 2: BOOKING -->
+  <g filter="url(#clsShadow)">
+    <rect x="430" y="40" width="240" height="210" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+    <rect x="430" y="40" width="240" height="34" rx="8" fill="#4c1d95"/>
+    <rect x="430" y="64" width="240" height="10" fill="#4c1d95"/>
+    <text x="550" y="62" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Booking</text>
+    <text x="442" y="90" font-family="monospace" font-size="11" fill="#334155">- id: String</text>
+    <text x="442" y="108" font-family="monospace" font-size="11" fill="#334155">- bookingId: String</text>
+    <text x="442" y="126" font-family="monospace" font-size="11" fill="#334155">- numberOfPeople: Int</text>
+    <text x="442" y="144" font-family="monospace" font-size="11" fill="#334155">- totalAmount: Float</text>
+    <line x1="430" y1="154" x2="670" y2="154" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="442" y="174" font-family="monospace" font-size="11" fill="#7c3aed">+ createBooking(): Booking</text>
+    <text x="442" y="192" font-family="monospace" font-size="11" fill="#7c3aed">+ cancelBooking(): Bool</text>
+    <text x="442" y="210" font-family="monospace" font-size="11" fill="#7c3aed">+ calculateBill(): Float</text>
+    <text x="442" y="228" font-family="monospace" font-size="11" fill="#7c3aed">+ printReceipt(): PDF</text>
+  </g>
+
+  <!-- CLASS 3: PAYMENT -->
+  <g filter="url(#clsShadow)">
+    <rect x="800" y="40" width="210" height="210" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+    <rect x="800" y="40" width="210" height="34" rx="8" fill="#831843"/>
+    <rect x="800" y="64" width="210" height="10" fill="#831843"/>
+    <text x="905" y="62" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Payment</text>
+    <text x="812" y="90" font-family="monospace" font-size="11" fill="#334155">- id: String</text>
+    <text x="812" y="108" font-family="monospace" font-size="11" fill="#334155">- bookingId: String</text>
+    <text x="812" y="126" font-family="monospace" font-size="11" fill="#334155">- amount: Float</text>
+    <text x="812" y="144" font-family="monospace" font-size="11" fill="#334155">- transactionId: String</text>
+    <line x1="800" y1="154" x2="1010" y2="154" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="812" y="174" font-family="monospace" font-size="11" fill="#db2777">+ processUPI(): Bool</text>
+    <text x="812" y="192" font-family="monospace" font-size="11" fill="#db2777">+ verifyTxn(): Status</text>
+    <text x="812" y="210" font-family="monospace" font-size="11" fill="#db2777">+ refundAmount(): Bool</text>
+  </g>
+
+  <!-- CLASS 4: TOURIST PLACE -->
+  <g filter="url(#clsShadow)">
+    <rect x="50" y="370" width="230" height="210" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+    <rect x="50" y="370" width="230" height="34" rx="8" fill="#065f46"/>
+    <rect x="50" y="394" width="230" height="10" fill="#065f46"/>
+    <text x="165" y="392" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">TouristPlace</text>
+    <text x="62" y="420" font-family="monospace" font-size="11" fill="#334155">- id: String</text>
+    <text x="62" y="438" font-family="monospace" font-size="11" fill="#334155">- name: String</text>
+    <text x="62" y="456" font-family="monospace" font-size="11" fill="#334155">- location: String</text>
+    <text x="62" y="474" font-family="monospace" font-size="11" fill="#334155">- entryFee: Float</text>
+    <line x1="50" y1="484" x2="280" y2="484" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="62" y="504" font-family="monospace" font-size="11" fill="#059669">+ getDetails(): Place</text>
+    <text x="62" y="522" font-family="monospace" font-size="11" fill="#059669">+ getCoordinates(): LatLng</text>
+    <text x="62" y="540" font-family="monospace" font-size="11" fill="#059669">+ listPackages(): List</text>
+  </g>
+
+  <!-- CLASS 5: TOUR PACKAGE -->
+  <g filter="url(#clsShadow)">
+    <rect x="430" y="370" width="240" height="210" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+    <rect x="430" y="370" width="240" height="34" rx="8" fill="#78350f"/>
+    <rect x="430" y="394" width="240" height="10" fill="#78350f"/>
+    <text x="550" y="392" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">TourPackage</text>
+    <text x="442" y="420" font-family="monospace" font-size="11" fill="#334155">- id: String</text>
+    <text x="442" y="438" font-family="monospace" font-size="11" fill="#334155">- name: String</text>
+    <text x="442" y="456" font-family="monospace" font-size="11" fill="#334155">- price: Float</text>
+    <text x="442" y="474" font-family="monospace" font-size="11" fill="#334155">- availableSeats: Int</text>
+    <line x1="430" y1="484" x2="670" y2="484" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="442" y="504" font-family="monospace" font-size="11" fill="#d97706">+ checkAvailability(): Bool</text>
+    <text x="442" y="522" font-family="monospace" font-size="11" fill="#d97706">+ deductSeats(qty): Bool</text>
+    <text x="442" y="540" font-family="monospace" font-size="11" fill="#d97706">+ restoreSeats(qty): Bool</text>
+    <text x="442" y="558" font-family="monospace" font-size="11" fill="#d97706">+ getItinerary(): List</text>
+  </g>
+
+  <!-- CLASS 6: REVIEW -->
+  <g filter="url(#clsShadow)">
+    <rect x="800" y="370" width="210" height="210" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+    <rect x="800" y="370" width="210" height="34" rx="8" fill="#111827"/>
+    <rect x="800" y="394" width="210" height="10" fill="#111827"/>
+    <text x="905" y="392" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Review</text>
+    <text x="812" y="420" font-family="monospace" font-size="11" fill="#334155">- id: String</text>
+    <text x="812" y="438" font-family="monospace" font-size="11" fill="#334155">- rating: Int (1-5)</text>
+    <text x="812" y="456" font-family="monospace" font-size="11" fill="#334155">- comment: String</text>
+    <text x="812" y="474" font-family="monospace" font-size="11" fill="#334155">- isApproved: Bool</text>
+    <line x1="800" y1="484" x2="1010" y2="484" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="812" y="504" font-family="monospace" font-size="11" fill="#4b5563">+ postReview(): Review</text>
+    <text x="812" y="522" font-family="monospace" font-size="11" fill="#4b5563">+ approveReview(): Bool</text>
+    <text x="812" y="540" font-family="monospace" font-size="11" fill="#4b5563">+ calculateAverage(): Float</text>
+  </g>
+</svg>

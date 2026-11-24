@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String         @id @default(uuid())
+  name         String
+  email        String         @unique
+  mobile       String
+  password     String
+  role         String         @default("USER") // ADMIN or USER
+  status       String         @default("ACTIVE") // ACTIVE or BLOCKED
+  profileImage String?        @db.Text
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  bookings     Booking[]
+  reviews      Review[]
+  notifications Notification[]
+}
+
+model TouristPlace {
+  id              String        @id @default(uuid())
+  name            String
+  description     String        @db.Text
+  location        String
+  latitude        Float
+  longitude       Float
+  images          String        @db.Text // Stored as JSON array string
+  bestTimeToVisit String
+  activities      String        @db.Text // Stored as JSON array string
+  entryFee        Float         @default(0)
+  status          String        @default("ACTIVE") // ACTIVE or INACTIVE
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  packages        TourPackage[]
+}
+
+model TourPackage {
+  id               String        @id @default(uuid())
+  name             String
+  description      String        @db.Text
+  destination      String
+  duration         String
+  price            Float
+  maxPeople        Int
+  availableSeats   Int
+  startDate        DateTime
+  endDate          DateTime
+  pickupLocation   String
+  includedServices String        @db.Text // Stored as JSON array string
+  excludedServices String        @db.Text // Stored as JSON array string
+  itinerary        String        @db.Text // Stored as JSON array string
+  images           String        @db.Text // Stored as JSON array string
+  status           String        @default("ACTIVE") // ACTIVE or INACTIVE
+  placeId          String?
+  place            TouristPlace? @relation(fields: [placeId], references: [id], onDelete: SetNull)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  bookings         Booking[]
+  reviews          Review[]
+}
+
+model Booking {
+  id             String      @id @default(uuid())
+  bookingId      String      @unique // e.g. AKL202600001
+  userId         String
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  packageId      String
+  package        TourPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  bookingDate    DateTime    @default(now())
+  travelDate     DateTime    @default(now())
+  numberOfPeople Int
+  totalAmount    Float
+  status         String      @default("PENDING") // PENDING, CONFIRMED, CANCELLED, COMPLETED
+  paymentStatus  String      @default("PENDING") // PENDING, SUCCESS, FAILED, REFUNDED
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  payment        Payment?
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  bookingId     String   @unique
+  booking       Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  amount        Float
+  paymentMethod String   @default("MOCK_UPI")
+  transactionId String   @unique
+  paymentStatus String   @default("PENDING") // PENDING, SUCCESS, FAILED, REFUNDED
+  paymentDate   DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Review {
+  id         String      @id @default(uuid())
+  userId     String
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  packageId  String
+  package    TourPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  rating     Int
+  comment    String      @db.Text
+  isApproved Boolean     @default(true)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String   @db.Text
+  type      String   @default("INFO") // BOOKING, PAYMENT, ANNOUNCEMENT, REMINDER
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

@@ -1,0 +1,102 @@
+<svg width="1050" height="740" viewBox="0 0 1050 740" xmlns="http://www.w3.org/2000/svg" style="background:#ffffff; font-family:'Segoe UI', Arial, sans-serif;">
+  <defs>
+    <marker id="seqArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb"/>
+    </marker>
+    <marker id="seqReturn" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 10 1 L 0 5 L 10 9 z" fill="#059669"/>
+    </marker>
+  </defs>
+
+  <text x="525" y="24" font-size="16" font-weight="bold" fill="#0f172a" text-anchor="middle">UML Sequence Diagram - Booking &amp; Payment Flow</text>
+
+  <!-- LIFELINES (VERTICAL COLUMNS) -->
+  <!-- 1: User -->
+  <rect x="40" y="40" width="130" height="40" rx="8" fill="#1e293b"/>
+  <text x="105" y="65" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">Tourist (User)</text>
+  <line x1="105" y1="80" x2="105" y2="710" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6,6"/>
+
+  <!-- 2: Frontend Client -->
+  <rect x="235" y="40" width="150" height="40" rx="8" fill="#2563eb"/>
+  <text x="310" y="65" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">Next.js Client (UI)</text>
+  <line x1="310" y1="80" x2="310" y2="710" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6,6"/>
+
+  <!-- 3: Backend API -->
+  <rect x="450" y="40" width="160" height="40" rx="8" fill="#059669"/>
+  <text x="530" y="65" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">Express.js Server</text>
+  <line x1="530" y1="80" x2="530" y2="710" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6,6"/>
+
+  <!-- 4: Database / Prisma -->
+  <rect x="670" y="40" width="150" height="40" rx="8" fill="#7c3aed"/>
+  <text x="745" y="65" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">Prisma ORM (DB)</text>
+  <line x1="745" y1="80" x2="745" y2="710" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6,6"/>
+
+  <!-- 5: Payment Gateway -->
+  <rect x="880" y="40" width="140" height="40" rx="8" fill="#db2777"/>
+  <text x="950" y="65" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">Payment Gateway</text>
+  <line x1="950" y1="80" x2="950" y2="710" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6,6"/>
+
+  <!-- MESSAGE 1: Select Package & Click Book Now -->
+  <line x1="105" y1="120" x2="305" y2="120" stroke="#2563eb" stroke-width="2" marker-end="url(#seqArrow)"/>
+  <text x="207" y="112" font-size="11" font-weight="bold" fill="#1e3a8a" text-anchor="middle">1. Select Package &amp; Click "Book Now"</text>
+
+  <!-- MESSAGE 2: Display Modal -->
+  <line x1="310" y1="155" x2="110" y2="155" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#seqReturn)"/>
+  <text x="207" y="147" font-size="11" font-weight="bold" fill="#065f46" text-anchor="middle">2. Render Booking Modal with Price &amp; Seats</text>
+
+  <!-- MESSAGE 3: Submit Travelers & Date -->
+  <line x1="105" y1="195" x2="305" y2="195" stroke="#2563eb" stroke-width="2" marker-end="url(#seqArrow)"/>
+  <text x="207" y="187" font-size="11" font-weight="bold" fill="#1e3a8a" text-anchor="middle">3. Confirm Travelers (e.g. 2 seats)</text>
+
+  <!-- MESSAGE 4: POST /api/bookings -->
+  <line x1="310" y1="235" x2="525" y2="235" stroke="#2563eb" stroke-width="2" marker-end="url(#seqArrow)"/>
+  <text x="417" y="227" font-size="11" font-weight="bold" fill="#1e3a8a" text-anchor="middle">4. POST /api/bookings (pkgId, seats, date)</text>
+
+  <!-- MESSAGE 5: Query Seat Availability -->
+  <line x1="530" y1="275" x2="740" y2="275" stroke="#2563eb" stroke-width="2" marker-end="url(#seqArrow)"/>
+  <text x="635" y="267" font-size="11" font-weight="bold" fill="#1e3a8a" text-anchor="middle">5. findUnique({ where: { id: pkgId } })</text>
+
+  <!-- MESSAGE 6: Return Available -->
+  <line x1="745" y1="310" x2="535" y2="310" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#seqReturn)"/>
+  <text x="635" y="302" font-size="11" font-weight="bold" fill="#065f46" text-anchor="middle">6. Package Found (availableSeats &gt;= 2)</text>
+
+  <!-- MESSAGE 7: Create Pending Booking -->
+  <line x1="530" y1="350" x2="740" y2="350" stroke="#2563eb" stroke-width="2" marker-end="url(#seqArrow)"/>
+  <text x="635" y="342" font-size="11" font-weight="bold" fill="#1e3a8a" text-anchor="middle">7. booking.create(status: 'PENDING')</text>
+
+  <!-- MESSAGE 8: Return Booking ID -->
+  <line x1="530" y1="390" x2="315" y2="390" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#seqReturn)"/>
+  <text x="417" y="382" font-size="11" font-weight="bold" fill="#065f46" text-anchor="middle">8. 201 Created (Booking ID: AKL20260001)</text>
+
+  <!-- MESSAGE 9: Prompt Payment -->
+  <line x1="310" y1="430" x2="110" y2="430" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#seqReturn)"/>
+  <text x="207" y="422" font-size="11" font-weight="bold" fill="#065f46" text-anchor="middle">9. Render Mock Payment Options (UPI / Card)</text>
+
+  <!-- MESSAGE 10: User Authorizes Payment -->
+  <line x1="105" y1="470" x2="305" y2="470" stroke="#2563eb" stroke-width="2" marker-end="url(#seqArrow)"/>
+  <text x="207" y="462" font-size="11" font-weight="bold" fill="#1e3a8a" text-anchor="middle">10. Select UPI &amp; Submit Payment</text>
+
+  <!-- MESSAGE 11: POST /api/payments -->
+  <line x1="310" y1="510" x2="525" y2="510" stroke="#2563eb" stroke-width="2" marker-end="url(#seqArrow)"/>
+  <text x="417" y="502" font-size="11" font-weight="bold" fill="#1e3a8a" text-anchor="middle">11. POST /api/payments (bookingId, amount)</text>
+
+  <!-- MESSAGE 12: Verify with Gateway -->
+  <line x1="530" y1="550" x2="945" y2="550" stroke="#db2777" stroke-width="2" marker-end="url(#seqArrow)"/>
+  <text x="735" y="542" font-size="11" font-weight="bold" fill="#831843" text-anchor="middle">12. Process &amp; Authorize Transaction</text>
+
+  <!-- MESSAGE 13: Gateway Approval -->
+  <line x1="950" y1="585" x2="535" y2="585" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#seqReturn)"/>
+  <text x="735" y="577" font-size="11" font-weight="bold" fill="#065f46" text-anchor="middle">13. Payment Verified (TxnId: TXN948123)</text>
+
+  <!-- MESSAGE 14: Atomic DB Transaction -->
+  <line x1="530" y1="625" x2="740" y2="625" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#seqArrow)"/>
+  <text x="635" y="617" font-size="11" font-weight="bold" fill="#4c1d95" text-anchor="middle">14. $transaction: [Confirm Booking + Deduct Seats]</text>
+
+  <!-- MESSAGE 15: Return Success Response -->
+  <line x1="530" y1="665" x2="315" y2="665" stroke="#059669" stroke-width="1.8" stroke-dasharray="4,4" marker-end="url(#seqReturn)"/>
+  <text x="417" y="657" font-size="11" font-weight="bold" fill="#065f46" text-anchor="middle">15. 200 OK (Confirmed &amp; Ticket Generated)</text>
+
+  <!-- MESSAGE 16: Show Ticket to User -->
+  <line x1="310" y1="695" x2="110" y2="695" stroke="#059669" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#seqReturn)"/>
+  <text x="207" y="687" font-size="11" font-weight="bold" fill="#047857" text-anchor="middle">16. Display Confirmation Badge &amp; Download PDF</text>
+</svg>
