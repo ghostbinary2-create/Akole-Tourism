@@ -6,23 +6,29 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Starting database seed from official AkoleTourism.com data...');
 
-  // Clean existing data
+  // Clean existing non-user data (preserve registered users)
   await prisma.notification.deleteMany();
   await prisma.review.deleteMany();
   await prisma.payment.deleteMany();
   await prisma.booking.deleteMany();
   await prisma.tourPackage.deleteMany();
   await prisma.touristPlace.deleteMany();
-  await prisma.user.deleteMany();
 
   // Passwords
   const adminPassword = await bcrypt.hash('admin123', 10);
   const userPassword = await bcrypt.hash('user123', 10);
 
-  // 1. Admin & Users
-  await prisma.user.create({
-    data: {
-      name: 'Pappu Ragade (Tour Organizer)',
+  // 1. Admin & Demo User (Upsert so existing users are never duplicated or deleted)
+  const adminUser = await prisma.user.upsert({
+    where: { email: 'admin@akole.com' },
+    update: {
+      name: 'Aditya Gorde (Tour Organizer)',
+      role: 'ADMIN',
+      status: 'ACTIVE',
+      password: adminPassword,
+    },
+    create: {
+      name: 'Aditya Gorde (Tour Organizer)',
       email: 'admin@akole.com',
       mobile: '+91 9420212418',
       password: adminPassword,
@@ -32,8 +38,14 @@ async function main() {
     },
   });
 
-  const user1 = await prisma.user.create({
-    data: {
+  const user1 = await prisma.user.upsert({
+    where: { email: 'user@akole.com' },
+    update: {
+      name: 'Rahul Sharma',
+      role: 'USER',
+      status: 'ACTIVE',
+    },
+    create: {
       name: 'Rahul Sharma',
       email: 'user@akole.com',
       mobile: '+91 9123456789',

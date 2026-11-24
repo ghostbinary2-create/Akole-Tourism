@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 // GET /api/places (Public)
 const getAllPlaces = async (req, res, next) => {
   try {
-    const { search, status } = req.query;
+    const { search, status } = req.query || {};
 
     const whereClause = {};
 
